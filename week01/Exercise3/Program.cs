@@ -8,6 +8,7 @@ class Program
         string playAgain;
 
         do
+        
         {
             int magicNumber = random.Next(1, 101);
             int guess;
