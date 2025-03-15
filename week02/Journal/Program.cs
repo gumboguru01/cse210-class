@@ -8,20 +8,22 @@ class Journal
 
     public void AddEntry(string prompt, string response)
     {
-        entries.Add($"Prompt: {prompt}\nResponse: {response}\n");
+        string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        entries.Add($"[{dateTime}] Prompt: {prompt}\nResponse: {response}\n");
     }
 
     public void DisplayJournal()
     {
         if (entries.Count == 0)
         {
-            Console.WriteLine("Your journal is empty.");
+            Console.WriteLine("Your journal is empty. Let's fill it up!");
         }
         else
         {
             foreach (var entry in entries)
             {
                 Console.WriteLine(entry);
+                Console.WriteLine(new string('-', 40)); // Decorative line between entries
             }
         }
     }
@@ -29,6 +31,24 @@ class Journal
     public List<string> GetEntries()
     {
         return entries;
+    }
+
+    public void SearchEntries(string keyword)
+    {
+        var foundEntries = entries.FindAll(entry => entry.Contains(keyword));
+        if (foundEntries.Count == 0)
+        {
+            Console.WriteLine("No entries found matching your search.");
+        }
+        else
+        {
+            Console.WriteLine($"Found {foundEntries.Count} entry(ies) with keyword '{keyword}':");
+            foreach (var entry in foundEntries)
+            {
+                Console.WriteLine(entry);
+                Console.WriteLine(new string('-', 40));
+            }
+        }
     }
 }
 
@@ -39,7 +59,7 @@ class FileHandler
         try
         {
             File.WriteAllLines(filename, journal.GetEntries());
-            Console.WriteLine("Journal saved successfully.");
+            Console.WriteLine($"Journal successfully saved to {filename}.");
         }
         catch (Exception ex)
         {
@@ -59,11 +79,11 @@ class FileHandler
                 {
                     journal.AddEntry(entry.Split(new string[] { "\n" }, StringSplitOptions.None)[0], entry.Split(new string[] { "\n" }, StringSplitOptions.None)[1]);
                 }
-                Console.WriteLine("Journal loaded successfully.");
+                Console.WriteLine($"Journal loaded successfully from {filename}.");
             }
             else
             {
-                Console.WriteLine("File not found.");
+                Console.WriteLine($"No journal file found at {filename}. Starting a new journal.");
             }
         }
         catch (Exception ex)
@@ -79,6 +99,15 @@ class Program
 {
     static void Main(string[] args)
     {
+        // Display a cool banner
+        Console.WriteLine(@"
+   _______________              ____
+  /               \            /    \
+ /    JOURNAL     \___________/      \
+ \    PROGRAM     /           \______/
+  \_______________/
+");
+
         Journal journal = new Journal();
         string[] prompts = {
             "Who was the most interesting person I interacted with today?",
@@ -91,12 +120,14 @@ class Program
         bool running = true;
         while (running)
         {
-            Console.WriteLine("Journal Program Menu:");
+            Console.WriteLine("\n-------------------- Journal Program Menu --------------------");
             Console.WriteLine("1. Write a new entry");
             Console.WriteLine("2. View journal");
             Console.WriteLine("3. Save journal to file");
             Console.WriteLine("4. Load journal from file");
-            Console.WriteLine("5. Exit");
+            Console.WriteLine("5. Search journal entries");
+            Console.WriteLine("6. Exit");
+            Console.Write("\nEnter your choice: ");
             string choice = Console.ReadLine();
 
             switch (choice)
@@ -104,29 +135,36 @@ class Program
                 case "1":
                     Random rand = new Random();
                     string prompt = prompts[rand.Next(prompts.Length)];
-                    Console.WriteLine($"Prompt: {prompt}");
-                    Console.WriteLine("Your response: ");
+                    Console.WriteLine($"\nPrompt: {prompt}");
+                    Console.Write("Your response: ");
                     string response = Console.ReadLine();
                     journal.AddEntry(prompt, response);
                     break;
                 case "2":
+                    Console.WriteLine("\n--- Your Journal Entries ---");
                     journal.DisplayJournal();
                     break;
                 case "3":
-                    Console.WriteLine("Enter filename to save journal: ");
+                    Console.Write("\nEnter filename to save journal: ");
                     string saveFile = Console.ReadLine();
                     FileHandler.SaveJournal(journal, saveFile);
                     break;
                 case "4":
-                    Console.WriteLine("Enter filename to load journal: ");
+                    Console.Write("\nEnter filename to load journal: ");
                     string loadFile = Console.ReadLine();
                     journal = FileHandler.LoadJournal(loadFile);
                     break;
                 case "5":
+                    Console.Write("\nEnter a keyword to search for: ");
+                    string keyword = Console.ReadLine();
+                    journal.SearchEntries(keyword);
+                    break;
+                case "6":
+                    Console.WriteLine("\nThank you for using the Journal Program. Goodbye!");
                     running = false;
                     break;
                 default:
-                    Console.WriteLine("Invalid choice, try again.");
+                    Console.WriteLine("\nInvalid choice, please try again.");
                     break;
             }
         }
