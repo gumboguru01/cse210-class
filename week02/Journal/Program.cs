@@ -8,6 +8,7 @@ class Journal
 
     public void AddEntry(string prompt, string response)
     {
+        // New feature: Adding date and time stamp to each journal entry
         string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         entries.Add($"[{dateTime}] Prompt: {prompt}\nResponse: {response}\n");
     }
@@ -23,7 +24,7 @@ class Journal
             foreach (var entry in entries)
             {
                 Console.WriteLine(entry);
-                Console.WriteLine(new string('-', 40)); // Decorative line between entries
+                Console.WriteLine(new string('-', 40)); // New feature: Decorative line between entries for better readability
             }
         }
     }
@@ -33,6 +34,7 @@ class Journal
         return entries;
     }
 
+    // New feature: Search function to find entries based on a keyword
     public void SearchEntries(string keyword)
     {
         var foundEntries = entries.FindAll(entry => entry.Contains(keyword));
@@ -46,7 +48,7 @@ class Journal
             foreach (var entry in foundEntries)
             {
                 Console.WriteLine(entry);
-                Console.WriteLine(new string('-', 40));
+                Console.WriteLine(new string('-', 40)); // Decorative line between found entries
             }
         }
     }
@@ -59,6 +61,7 @@ class FileHandler
         try
         {
             File.WriteAllLines(filename, journal.GetEntries());
+            // New feature: Added success message when saving the journal
             Console.WriteLine($"Journal successfully saved to {filename}.");
         }
         catch (Exception ex)
@@ -79,6 +82,7 @@ class FileHandler
                 {
                     journal.AddEntry(entry.Split(new string[] { "\n" }, StringSplitOptions.None)[0], entry.Split(new string[] { "\n" }, StringSplitOptions.None)[1]);
                 }
+                // New feature: Added success message when loading the journal
                 Console.WriteLine($"Journal loaded successfully from {filename}.");
             }
             else
@@ -99,7 +103,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Display a cool banner
+        // New feature: ASCII art banner 
         Console.WriteLine(@"
    _______________              ____
   /               \            /    \
@@ -125,7 +129,7 @@ class Program
             Console.WriteLine("2. View journal");
             Console.WriteLine("3. Save journal to file");
             Console.WriteLine("4. Load journal from file");
-            Console.WriteLine("5. Search journal entries");
+            Console.WriteLine("5. Search journal entries"); // New feature: Added search option to the menu
             Console.WriteLine("6. Exit");
             Console.Write("\nEnter your choice: ");
             string choice = Console.ReadLine();
@@ -155,9 +159,9 @@ class Program
                     journal = FileHandler.LoadJournal(loadFile);
                     break;
                 case "5":
-                    Console.Write("\nEnter a keyword to search for: ");
+                    Console.Write("\nEnter a keyword to search for: "); // New feature: Prompt for search keyword
                     string keyword = Console.ReadLine();
-                    journal.SearchEntries(keyword);
+                    journal.SearchEntries(keyword); // New feature: Search entries based on the keyword
                     break;
                 case "6":
                     Console.WriteLine("\nThank you for using the Journal Program. Goodbye!");
