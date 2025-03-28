@@ -48,20 +48,21 @@ class Program
     static void Main(string[] args)
     {
         // Create some videos
-        Video video1 = new Video("Amazing Product Review", "John Doe", 360);
-        video1.AddComment(new Comment("Alice", "Great video! Learned a lot."));
-        video1.AddComment(new Comment("Bob", "Very informative, thanks!"));
-        video1.AddComment(new Comment("Charlie", "I disagree with some points, but still good."));
+        Video video1 = new Video("Amazing Product Review", "Mosh Hammadan ", 360);
+        video1.AddComment(new Comment("Nyasha", "This video was very informative!"));
+        video1.AddComment(new Comment("Tatenda", "Nice review, learned a lot."));
+        video1.AddComment(new Comment("Kimberly", "Great job! Keep it up."));
+        video1.AddComment(new Comment("Panashe", "I love the details in this video."));
 
-        Video video2 = new Video("Tech Gadget Unboxing", "Jane Smith", 540);
-        video2.AddComment(new Comment("David", "I love the gadget!"));
-        video2.AddComment(new Comment("Eve", "Could have been a bit more detailed."));
-        video2.AddComment(new Comment("Frank", "The unboxing was exciting, but I need more reviews."));
+        Video video2 = new Video("Tech Gadget Unboxing", "Tane Smith", 540);
+        video2.AddComment(new Comment("Reign", "This gadget looks amazing!"));
+        video2.AddComment(new Comment("Panashe", "The unboxing was exciting, I need to get one!"));
+        video2.AddComment(new Comment("Mapfumo", "Could you do more reviews like this?"));
 
-        Video video3 = new Video("Healthy Lifestyle Tips", "Chris Johnson", 420);
-        video3.AddComment(new Comment("Grace", "These tips are very useful, thank you!"));
-        video3.AddComment(new Comment("Hannah", "Great advice on nutrition!"));
-        video3.AddComment(new Comment("Ivy", "More tips on exercise please!"));
+        Video video3 = new Video("Healthy Lifestyle Tips", "Johnson", 420);
+        video3.AddComment(new Comment("Kimberly", "These tips are so useful!"));
+        video3.AddComment(new Comment("Nyasha", "Great advice, very practical."));
+        video3.AddComment(new Comment("Manjoni", "Would love to hear more about exercise tips!"));
 
         // Create a list of videos
         List<Video> videos = new List<Video> { video1, video2, video3 };
