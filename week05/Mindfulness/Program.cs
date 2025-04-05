@@ -25,7 +25,8 @@ public class MindfulnessApp
             Console.WriteLine("1. Start Breathing Activity");
             Console.WriteLine("2. Start Reflection Activity");
             Console.WriteLine("3. Start Listing Activity");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. View Stats");
+            Console.WriteLine("5. Exit");
             Console.Write("Select an option: ");
 
             string input = Console.ReadLine();
@@ -50,10 +51,12 @@ public class MindfulnessApp
             }
             else if (input == "4")
             {
+                ShowStats();
+            }
+            else if (input == "5")
+            {
                 Console.WriteLine("Thank you for using the Mindfulness App!");
-                Console.WriteLine($"Breathing Activities: {breathingCount}");
-                Console.WriteLine($"Reflection Activities: {reflectionCount}");
-                Console.WriteLine($"Listing Activities: {listingCount}");
+                ShowStats();
                 break;
             }
             else
@@ -62,6 +65,16 @@ public class MindfulnessApp
                 Thread.Sleep(2000);
             }
         }
+    }
+
+    private void ShowStats()
+    {
+        Console.WriteLine("\nActivity Summary:");
+        Console.WriteLine($"Breathing Activities Completed: {breathingCount}");
+        Console.WriteLine($"Reflection Activities Completed: {reflectionCount}");
+        Console.WriteLine($"Listing Activities Completed: {listingCount}");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
     }
 }
 
@@ -226,9 +239,17 @@ public class ListingActivity : Activity
         {
             if (Console.KeyAvailable)
             {
-                items.Add(Console.ReadLine());
+                string entry = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(entry))
+                {
+                    items.Add(entry);
+                }
             }
         }
-        Console.WriteLine($"You listed {items.Count} items.");
+        Console.WriteLine($"You listed {items.Count} items:");
+        foreach (string item in items)
+        {
+            Console.WriteLine("- " + item);
+        }
     }
 }
